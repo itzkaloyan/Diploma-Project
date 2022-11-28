@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
-
 project(serverClient LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package(PkgConfig)
 
+find_package(PkgConfig)
 find_package(cppzmq)
+
 set(SOURCES
     src/example_main.cpp
 )

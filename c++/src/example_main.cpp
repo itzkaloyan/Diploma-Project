@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 		printf("no argvs passed\n");
 		Client client;
 		client.connect("tcp://127.0.0.1:5555");
-		for (int i = 0; i <= int(JsonRequests::Invalid); i++) {
+		for (int i = 0; i <= int(JsonRequests::Deactivate); i++) {
 			const Result res = client.sendCommand(static_cast<JsonRequests>(i), MotionSpeed{0.5, 1.0f});
 			if (res == Result::FailedToSend) {
 				printf("failed to send\n");

@@ -8,7 +8,7 @@ const char* gJsonOptionalReq[] = {
 	"Foreward",
 	"Backward",
 	"Stop",
-	"Invalid"
+	"Deactivate"
 };
 
 MotionSpeed::MotionSpeed(
@@ -61,11 +61,11 @@ const bool JsonFunction::getJsonRequest(
 	}
 
 	nlohmann::json json = nlohmann::json::parse(msg);
-	if(json.contains(gJsonOptionalReq[int(JsonRequests::Invalid)])) {
+	if(json.contains(gJsonOptionalReq[int(JsonRequests::Deactivate)])) {
 		return false;
 	}
 
-	for (int i = 0; i != int(JsonRequests::Invalid); i++){
+	for (int i = 0; i != int(JsonRequests::Deactivate); i++){
 		if (json.contains(gJsonOptionalReq[i])){
 			req = static_cast<JsonRequests>(i);
 			return true;

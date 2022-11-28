@@ -9,7 +9,7 @@ enum class JsonRequests : uint8_t
 	Foreward,
 	Backward,
 	Stop,
-	Invalid
+	Deactivate
 };
 
 enum class HTTPReq : uint8_t

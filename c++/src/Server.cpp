@@ -49,7 +49,7 @@ bool Server::catchPostRequest(
 
 const bool Server::listenForCommand() {
 	zmq::message_t msg;
-	JsonRequests request = JsonRequests::Invalid;
+	JsonRequests request = JsonRequests::Deactivate;
 	bool res = socket.recv(&msg);
 	if (res == false) {
 		printf("could not recieve from client\n");
