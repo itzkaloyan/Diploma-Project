@@ -46,6 +46,28 @@ bool Server::catchPostRequest(
 	}
 	return true;
 }
+
+const bool Server::listenForCommand() {
+	zmq::message_t msg;
+	JsonRequests request = JsonRequests::Invalid;
+	bool res = socket.recv(&msg);
+	if (res == false) {
+		printf("could not recieve from client\n");
+		return false;
+	}
+	res = JsonFunction::getJsonRequest(
+		msg.to_string(),
+	 	request
+	);
+	if (res == false) {
+		socket.send(zmq::buffer("closing the gate"), zmq::send_flags::dontwait);
+		return false;
+	}
+	printf("%s", msg.to_string().c_str());
+	socket.send(zmq::buffer("recieved function"), zmq::send_flags::dontwait);
+	return true;
+}
+
 void Server::listen() {
 	zmq::message_t msg;
 	int32_t sizeOfIncommingBuffer;

@@ -82,6 +82,11 @@ const Result Client::sendCommand(
 ) {
 	const std::string sendMsg = JsonFunction::createJsonAsString(request, motionSpeed);
 	const int sizeSended = socket.send(sendMsg.data(), sendMsg.size());
+	printf("message send -> %s\n", sendMsg.c_str());
+
+	zmq::message_t msgRecv;
+	socket.recv(msgRecv); // -> see if there is still a connection
+	printf("%s -> recv messsage", msgRecv.to_string().c_str());
 	return (sizeSended == sendMsg.size()) ? Result::Succeeded : Result::FailedToSend;
 }
 

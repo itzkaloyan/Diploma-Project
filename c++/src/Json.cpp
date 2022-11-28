@@ -1,6 +1,16 @@
 #include "Json.h"
 #include "json.hpp"
 
+const char* gJsonOptionalReq[] = {
+	"SetMotors",
+	"Left",
+	"Right",
+	"Foreward",
+	"Backward",
+	"Stop",
+	"Invalid"
+};
+
 MotionSpeed::MotionSpeed(
 	const float primary,
 	const float secondaryMotion
@@ -19,16 +29,7 @@ const std::string JsonFunction::createJsonAsString(
 	const JsonRequests request,
 	const MotionSpeed& motionSpeed
 ) {
-	static const char* jsonOptionalReq[] = {
-		"SetMotors",
-		"Left",
-		"Right",
-		"Foreward",
-		"Backward",
-		"Stop"
-	};
-
-	const std::string& req = jsonOptionalReq[int(request)];
+	const std::string& req = gJsonOptionalReq[int(request)];
 	nlohmann::json json;
 	if (request == JsonRequests::Set_motors) {
 		if(motionSpeed.isSingleMotion()) {
@@ -50,12 +51,34 @@ const std::string JsonFunction::prepareHTTPReqPost(HTTPReq request, int sizeToSe
 	return json.dump();
 }
 
+const bool JsonFunction::getJsonRequest(
+	const std::string& msg,
+	JsonRequests& req
+) {
+	if (msg.empty()) {
+		printf("the recieve msg is empty!\n");
+		return false;
+	}
+
+	nlohmann::json json = nlohmann::json::parse(msg);
+	if(json.contains(gJsonOptionalReq[int(JsonRequests::Invalid)])) {
+		return false;
+	}
+
+	for (int i = 0; i != int(JsonRequests::Invalid); i++){
+		if (json.contains(gJsonOptionalReq[i])){
+			req = static_cast<JsonRequests>(i);
+			return true;
+		}
+	}
+	return false;
+}
+
 const int JsonFunction::getReqAndSize(
 	const std::string& msg,
 	HTTPReq& req
 ) {
-	if (msg.empty())
-	{
+	if (msg.empty()) {
 		printf("the recieve msg is empty!\n");
 		return -1;
 	}

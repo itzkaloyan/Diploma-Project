@@ -3,12 +3,13 @@
 
 enum class JsonRequests : uint8_t
 {
-	Set_motors,
+	Set_motors = 0,
 	Left,
 	Right,
 	Foreward,
 	Backward,
-	Stop
+	Stop,
+	Invalid
 };
 
 enum class HTTPReq : uint8_t
@@ -48,6 +49,10 @@ const std::string prepareHTTPReqPost(
 const int getReqAndSize(
 	const std::string& msg,
 	HTTPReq& req
+);
+const bool getJsonRequest(
+	const std::string& msg,
+	JsonRequests& req
 );
 const std::string createJsonAsString(
 	const JsonRequests request,

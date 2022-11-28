@@ -20,6 +20,7 @@ public:
 		Server&& other
 	) noexcept;
 	void listen();
+	const bool listenForCommand();
 	~Server();
 private:
 	zmq::context_t context{ 1 };
