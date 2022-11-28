@@ -5,10 +5,10 @@
 
 class Client
 {
-	bool splitAndSendPackage(
+	const bool splitAndSendPackage(
 		std::vector<int32_t>& package
 	);
-	bool sendHTTPFlag(
+	const bool Client::sendHTTPFlag(
 		const HTTPReq request,
 		int sizeInBytes
 	);
@@ -21,7 +21,11 @@ public:
 	void connect(
 		const std::string& port
 	);
-	Result sendBuffer(
+	const Result sendCommand(
+		const JsonRequests request,
+		const MotionSpeed& motionSpeed
+	);
+	const Result sendBuffer(
 		const std::string& filename
 	);
 	~Client();

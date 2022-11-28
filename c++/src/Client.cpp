@@ -32,7 +32,7 @@ Client::~Client() {
 	context.close();
 }
 
-bool readingFiles(
+bool readFileToBuffer(
     const std::string& fileName,
     std::vector<int32_t>& output
 ) {
@@ -46,7 +46,10 @@ bool readingFiles(
 		Dprintf("%d size of file is below zero", size);
 		return false;
 	}
-	output.resize(size);
+	if(size != output.size()) {
+		output.resize(size);
+	}
+
 	fread(reinterpret_cast<char*>(&output[0]), sizeof(int32_t), size, rdFile);
 	fclose(rdFile);
     if(output.empty()) {
@@ -56,7 +59,7 @@ bool readingFiles(
 	return true;
 }
 
-bool Client::splitAndSendPackage(
+const bool Client::splitAndSendPackage(
     std::vector<int32_t>& package
 ) {
 	//TODO: add package special number
@@ -73,26 +76,39 @@ bool Client::splitAndSendPackage(
     return true;
 }
 
-bool Client::sendHTTPFlag(
+const Result Client::sendCommand(
+	const JsonRequests request,
+	const MotionSpeed& motionSpeed
+) {
+	const std::string sendMsg = JsonFunction::createJsonAsString(request, motionSpeed);
+	const int sizeSended = socket.send(sendMsg.data(), sendMsg.size());
+	return (sizeSended == sendMsg.size()) ? Result::Succeeded : Result::FailedToSend;
+}
+
+const bool Client::sendHTTPFlag(
 	const HTTPReq request,
 	int sizeInBytes
 ) {
-	std::string sendMsg = JsonFile::prepareHTTPReqPost(request, sizeInBytes);
+	std::string sendMsg = JsonFunction::prepareHTTPReqPost(request, sizeInBytes);
 	socket.send(sendMsg.data(), sendMsg.size());
 	//TODO: see how to check
 	return true;
 }
 
-Result Client::sendBuffer(
+const Result Client::sendBuffer(
 	const std::string& filename
 ) {
-    std::vector<int32_t> output(200*100, 1);
-	Dprintf("the output size is --> %d", output.size()*sizeof(int32_t));
+    std::vector<int32_t> output;
+	if (readFileToBuffer(filename, output) == false) {
+		return Result::FailedToSend;
+	}
+	Dprintf("the output size is --> %d", int(output.size()*sizeof(int32_t)));
 
 	bool succeeded = sendHTTPFlag(
 		HTTPReq::Post,
 		output.size() * sizeof(output[0])
 	);
+
 	if (succeeded == false) {
 		Dprintf("%d could not send Http flag", 0);
 		return Result::FailedToSend;

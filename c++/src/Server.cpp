@@ -34,14 +34,14 @@ bool Server::catchPostRequest(
 ) {
 	tensor.resize(size);
 	zmq::recv_result_t result = socket.recv(tensor.data(), size);
-	if (result.has_value() == -1) {
-		Dprintf("was not able to recv data %d", result.value());
+	if (result.has_value() == false) {
+		Dprintf("was not able to recv data %d", 0);
 		return false;
 	}
 
 	result = socket.send(zmq::buffer("recieved data"), zmq::send_flags::none);
-	if (result.value() == -1) {
-		Dprintf("was not able to recv data %d", result.value());
+	if (result.value() == false) {
+		Dprintf("was not able to recv data %d", int(result.value()));
 		return false;
 	}
 	return true;
@@ -52,7 +52,7 @@ void Server::listen() {
 	HTTPReq request = HTTPReq::None;
 
 	socket.recv(&msg);
-	int sizeOfBufferInBytes = JsonFile::getReqAndSize(
+	int sizeOfBufferInBytes = JsonFunction::getReqAndSize(
 		msg.to_string(),
 	 	request
 	);
@@ -66,7 +66,7 @@ void Server::listen() {
 	bool succeeded = catchPostRequest(tensor, sizeOfBufferInBytes);
 	if (succeeded == false) {
 		Dprintf("could was not able to recv message, aborting with %d", -1);
-		exit -1;
+		exit(-1);
 	}
 	Dprintf("tensor's first element %d", tensor[0]);
 }

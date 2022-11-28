@@ -10,20 +10,3 @@
         __func__, __FILE__, __LINE__, __VA_ARGS__)
 #define DebugPuts(MSG) Dprintf("%s", MSG)
 #endif
-
-enum class HTTPReq : uint8_t
-{
-	None,
-	Get,
-	Post,
-	Shutdown
-};
-
-enum class Result : uint8_t
-{
-	FailedToSend = 0,
-	Succeeded = 1,
-};
-
-const int PackageSize = 2000;
-const int PackageSizeInBytes = PackageSize*sizeof(int);
