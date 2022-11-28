@@ -7,14 +7,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(PkgConfig)
 
 find_package(cppzmq)
-# pkg_check_modules(PC_ZeroMQ QUIET zmq)
-
 set(SOURCES
+    src/example_main.cpp
+)
+set(LIB_SOURCES
 	#code
-    src/main.cpp
-    src/Client.h
     src/Client.cpp
-    src/Server.h
     src/Server.cpp
     #zmq dependencies
     cppzmq/zmq.hpp
@@ -26,24 +24,26 @@ set(SOURCES
     src/dpd/depend.h
     src/dpd/stbi_write.h
     #json creating
-    src/Json.h
     src/Json.cpp
 )
 
-add_executable(serverClient ${SOURCES})
-
-target_link_directories(${PROJECT_NAME} PUBLIC
-)
+set(STAND_ALONE FALSE)
+if(STAND_ALONE)
+    add_executable(serverClient ${LIB_SOURCES} ${SOURCES})
+else()
+    add_library(${PROJECT_NAME} STATIC ${LIB_SOURCES})
+endif()
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     cppzmq-static
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/includes
     ${CMAKE_CURRENT_SOURCE_DIR}/src/dpd
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
-cppzmq-static
-${CMAKE_DL_LIBS}
+    cppzmq-static
+    ${CMAKE_DL_LIBS}
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:MSVC>:>)
