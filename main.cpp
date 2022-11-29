@@ -4,12 +4,8 @@ int main(int argc, char** argv)
 {
     Client client;
     const Result (Client::*functPonter[])(const MotionSpeed&) = {
-        &Client::backwardCommand,
-        &Client::forewardCommand,
-        &Client::leftCommand,
-        &Client::rightCommand,
-        &Client::stopCommand,
         &Client::setMotorCommand,
+        &Client::stopCommand,
         &Client::deactivate
     };
     client.connect("tcp://127.0.0.1:5555");

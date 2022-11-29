@@ -1,27 +1,22 @@
+# from adafruit_motorkit import MotorKit
+# import time
 import zmq
-import time
 import sys
 import json
 
+# kit = MotorKit()
+
 def SetMotor(arg):
+    # kit.motor1.throttle(arg[0])
+    # kit.motor2.throttle(arg[1])
     print(f"SetMotor {arg}")
-def Left(arg):
-    print(f"Left {arg}")
-def Right(arg):
-    print(f"Right {arg}")
-def Foreward(arg):
-    print(f"Foreward {arg}")
-def Backward(arg):
-    print(f"Backward {arg}")
 def Stop(arg):
+    # kit.motor1.throttle(0.0)
+    # kit.motor2.throttle(0.0)
     print(f"Stop {arg}")
 
 kvp = {
     "SetMotors":SetMotor,
-	"Left":Left,
-	"Right":Right,
-	"Foreward":Foreward,
-	"Backward":Backward,
 	"Stop":Stop
 }
 

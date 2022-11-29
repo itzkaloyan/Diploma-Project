@@ -90,24 +90,14 @@ const Result Client::sendCommand(
 	return (sizeSended == sendMsg.size()) ? Result::Succeeded : Result::FailedToSend;
 }
 
-const Result Client::leftCommand(const MotionSpeed& motionSpeed) {
-	return sendCommand("Left", motionSpeed);
-}
-const Result Client::rightCommand(const MotionSpeed& motionSpeed) {
-	return sendCommand("Right", motionSpeed);
-}
-const Result Client::forewardCommand(const MotionSpeed& motionSpeed) {
-	return sendCommand("Foreward", motionSpeed);
-}
-const Result Client::backwardCommand(const MotionSpeed& motionSpeed) {
-	return sendCommand("Backward", motionSpeed);
-}
-const Result Client::stopCommand(const MotionSpeed& motionSpeed) {
-	return sendCommand("Stop", motionSpeed);
-}
 const Result Client::setMotorCommand(const MotionSpeed& motionSpeed) {
 	return sendCommand("SetMotors", motionSpeed);
 }
+
+const Result Client::stopCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Stop", motionSpeed);
+}
+
 const Result Client::deactivate(const MotionSpeed& motionSpeed) {
 	return sendCommand("Deactivate", motionSpeed);
 }

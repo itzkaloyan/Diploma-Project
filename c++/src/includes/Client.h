@@ -16,6 +16,9 @@ class Client
 		const char* command,
 		const MotionSpeed& motionSpeed
 	);
+	const Result sendBuffer(
+		const std::string& filename
+	);
 public:
 	Client() = default;
 	Client(Client& other) = delete;
@@ -25,16 +28,9 @@ public:
 	void connect(
 		const std::string& port
 	);
-	const Result leftCommand(const MotionSpeed& motionSpeed);
-	const Result rightCommand(const MotionSpeed& motionSpeed);
-	const Result forewardCommand(const MotionSpeed& motionSpeed);
-	const Result backwardCommand(const MotionSpeed& motionSpeed);
-	const Result stopCommand(const MotionSpeed& motionSpeed);
 	const Result setMotorCommand(const MotionSpeed& motionSpeed);
+	const Result stopCommand(const MotionSpeed& motionSpeed);
 	const Result deactivate(const MotionSpeed& motionSpeed);
-	const Result sendBuffer(
-		const std::string& filename
-	);
 	~Client();
 private:
 	zmq::context_t context{ 1 };
