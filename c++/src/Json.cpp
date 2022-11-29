@@ -5,13 +5,13 @@ MotionSpeed::MotionSpeed(
 	const float primary,
 	const float secondaryMotion
 ) {
-	this->primaryMotion = primary;
-	this->secondMotion = secondaryMotion;
+	this->leftMotor = primary;
+	this->rightMotor = secondaryMotion;
 }
 
 const bool MotionSpeed::isSingleMotion() const {
 	static const float minMovement = 0.01f;
-	bool secMotion = secondMotion <= minMovement;
+	bool secMotion = rightMotor <= minMovement;
 	return secMotion;
 }
 
@@ -21,15 +21,7 @@ const std::string JsonFunction::createJsonAsString(
 ) {
 	const std::string req(function);
 	nlohmann::json json;
-	if (req == "SetMotors") {
-		if(motionSpeed.isSingleMotion()) {
-			printf("cannot set motion if Motion Speed does not have secondary motion set\n");
-			return "";
-		}
-		json[req] = {motionSpeed.primaryMotion, motionSpeed.secondMotion};
-	} else {
-		json[req] = motionSpeed.primaryMotion;
-	}
+	json[req] = {motionSpeed.leftMotor, motionSpeed.rightMotor};
 	return json.dump();
 }
 

@@ -36,8 +36,8 @@ struct MotionSpeed
 		const float secondaryMotion = 0.0f
 	);
 	const bool isSingleMotion() const;
-	float primaryMotion;
-	float secondMotion;
+	float leftMotor;
+	float rightMotor;
 };
 
 namespace JsonFunction
