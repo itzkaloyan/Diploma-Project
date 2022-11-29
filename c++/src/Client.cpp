@@ -77,10 +77,10 @@ const bool Client::splitAndSendPackage(
 }
 
 const Result Client::sendCommand(
-	const JsonRequests request,
+	const char* command,
 	const MotionSpeed& motionSpeed
 ) {
-	const std::string sendMsg = JsonFunction::createJsonAsString(request, motionSpeed);
+	const std::string sendMsg = JsonFunction::createJsonAsString(command, motionSpeed);
 	const int sizeSended = socket.send(sendMsg.data(), sendMsg.size());
 	printf("message send -> %s\n", sendMsg.c_str());
 
@@ -88,6 +88,28 @@ const Result Client::sendCommand(
 	socket.recv(msgRecv); // -> see if there is still a connection
 	printf("%s -> recv messsage", msgRecv.to_string().c_str());
 	return (sizeSended == sendMsg.size()) ? Result::Succeeded : Result::FailedToSend;
+}
+
+const Result Client::leftCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Left", motionSpeed);
+}
+const Result Client::rightCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Right", motionSpeed);
+}
+const Result Client::forewardCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Foreward", motionSpeed);
+}
+const Result Client::backwardCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Backward", motionSpeed);
+}
+const Result Client::stopCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("Stop", motionSpeed);
+}
+const Result Client::setMotorCommand(const MotionSpeed& motionSpeed) {
+	return sendCommand("SetMotors", motionSpeed);
+}
+const Result Client::deactivate(const MotionSpeed& motionSpeed) {
+	return sendCommand("Deactivate", motionSpeed);
 }
 
 const bool Client::sendHTTPFlag(

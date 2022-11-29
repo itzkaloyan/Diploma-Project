@@ -55,7 +55,7 @@ const bool getJsonRequest(
 	JsonRequests& req
 );
 const std::string createJsonAsString(
-	const JsonRequests request,
+	const char* function,
 	const MotionSpeed& motionSpeed
 );
 };

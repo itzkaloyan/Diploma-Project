@@ -1,16 +1,6 @@
 #include "Json.h"
 #include "json.hpp"
 
-const char* gJsonOptionalReq[] = {
-	"SetMotors",
-	"Left",
-	"Right",
-	"Foreward",
-	"Backward",
-	"Stop",
-	"Deactivate"
-};
-
 MotionSpeed::MotionSpeed(
 	const float primary,
 	const float secondaryMotion
@@ -26,12 +16,12 @@ const bool MotionSpeed::isSingleMotion() const {
 }
 
 const std::string JsonFunction::createJsonAsString(
-	const JsonRequests request,
+	const char* function,
 	const MotionSpeed& motionSpeed
 ) {
-	const std::string& req = gJsonOptionalReq[int(request)];
+	const std::string req(function);
 	nlohmann::json json;
-	if (request == JsonRequests::Set_motors) {
+	if (req == "SetMotors") {
 		if(motionSpeed.isSingleMotion()) {
 			printf("cannot set motion if Motion Speed does not have secondary motion set\n");
 			return "";
@@ -61,15 +51,8 @@ const bool JsonFunction::getJsonRequest(
 	}
 
 	nlohmann::json json = nlohmann::json::parse(msg);
-	if(json.contains(gJsonOptionalReq[int(JsonRequests::Deactivate)])) {
+	if(json.contains("Deactivate")) {
 		return false;
-	}
-
-	for (int i = 0; i != int(JsonRequests::Deactivate); i++){
-		if (json.contains(gJsonOptionalReq[i])){
-			req = static_cast<JsonRequests>(i);
-			return true;
-		}
 	}
 	return false;
 }

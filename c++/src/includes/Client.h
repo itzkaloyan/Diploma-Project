@@ -12,6 +12,10 @@ class Client
 		const HTTPReq request,
 		int sizeInBytes
 	);
+	const Result sendCommand(
+		const char* command,
+		const MotionSpeed& motionSpeed
+	);
 public:
 	Client() = default;
 	Client(Client& other) = delete;
@@ -21,10 +25,13 @@ public:
 	void connect(
 		const std::string& port
 	);
-	const Result sendCommand(
-		const JsonRequests request,
-		const MotionSpeed& motionSpeed
-	);
+	const Result leftCommand(const MotionSpeed& motionSpeed);
+	const Result rightCommand(const MotionSpeed& motionSpeed);
+	const Result forewardCommand(const MotionSpeed& motionSpeed);
+	const Result backwardCommand(const MotionSpeed& motionSpeed);
+	const Result stopCommand(const MotionSpeed& motionSpeed);
+	const Result setMotorCommand(const MotionSpeed& motionSpeed);
+	const Result deactivate(const MotionSpeed& motionSpeed);
 	const Result sendBuffer(
 		const std::string& filename
 	);
