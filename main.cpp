@@ -1,41 +1,54 @@
-#include <stdio.h>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <iostream>
-
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
 using namespace cv;
 using namespace std;
-
-int main()
+int main(int argc, char **argv)
 {
-    int Hue_Lower_Value = 100;
-    int Hue_Lower_Upper_Value = 140;
-    int Saturation_Lower_Value = 150;
-    int Saturation_Upper_Value = 255;
-    int Value_Lower = 0;
-    int Value_Upper = 255;
-    Mat image = imread("../bluePowder.jpeg",
-                       IMREAD_COLOR);
-
-    if (image.empty())
+    // Declare the output variables
+    Mat dst, cdst, cdstP;
+    // Loads an image
+    Mat src = imread(samples::findFile("../colored_lines.png"), IMREAD_GRAYSCALE);
+    // Check if image is loaded fine
+    if (src.empty())
     {
-        cout << "Image File "
-             << "Not Found" << endl;
-
-        cin.get();
+        printf(" Error opening image\n");
         return -1;
     }
-
-    Mat hsv;
-    cvtColor(image, hsv, COLOR_BGR2HSV);
-
-    imshow("Original", image);
-
-    Mat detection_screen;
-
-    inRange(hsv, Scalar(Hue_Lower_Value, Saturation_Lower_Value, Value_Lower), Scalar(Hue_Lower_Upper_Value, Saturation_Upper_Value, Value_Upper), detection_screen);
-    imshow("Result", detection_screen);
-    waitKey(0);
+    // Edge detection
+    Canny(src, dst, 50, 200, 3);
+    // Copy edges to the images that will display the results in BGR
+    cvtColor(dst, cdst, COLOR_GRAY2BGR);
+    cdstP = cdst.clone();
+    // Standard Hough Line Transform
+    vector<Vec2f> lines;                               // will hold the results of the detection
+    HoughLines(dst, lines, 1, CV_PI / 180, 150, 0, 0); // runs the actual detection
+    // Draw the lines
+    for (size_t i = 0; i < lines.size(); i++)
+    {
+        float rho = lines[i][0], theta = lines[i][1];
+        Point pt1, pt2;
+        double a = cos(theta), b = sin(theta);
+        double x0 = a * rho, y0 = b * rho;
+        pt1.x = cvRound(x0 + 1000 * (-b));
+        pt1.y = cvRound(y0 + 1000 * (a));
+        pt2.x = cvRound(x0 - 1000 * (-b));
+        pt2.y = cvRound(y0 - 1000 * (a));
+        line(cdst, pt1, pt2, Scalar(0, 0, 255), 3, LINE_AA);
+    }
+    // Probabilistic Line Transform
+    vector<Vec4i> linesP;                                // will hold the results of the detection
+    HoughLinesP(dst, linesP, 1, CV_PI / 180, 50, 20, 5); // runs the actual detection
+    // Draw the lines
+    for (size_t i = 0; i < linesP.size(); i++)
+    {
+        Vec4i l = linesP[i];
+        line(cdstP, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(0, 0, 255), 3, LINE_AA);
+    }
+    // Show results
+    imshow("Source", src);
+    // imshow("Standard Hough Line Transform", cdst);
+    imshow("Probabilistic Line Transform", cdstP);
+    waitKey();
     return 0;
 }
