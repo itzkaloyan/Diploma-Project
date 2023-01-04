@@ -6,10 +6,10 @@
 using namespace cv;
 using namespace std;
 
-struct contour
+struct ContourFinder
 {
-    contour() = default;
-    void thresh_callback();
+    ContourFinder() = default;
+    void find(Mat src_gray);
 
 private:
     int thresh = 100;

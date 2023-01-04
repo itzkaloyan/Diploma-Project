@@ -16,15 +16,10 @@ int main(int argc, char **argv)
         cout << "Usage: " << argv[0] << " <Input image>" << endl;
         return -1;
     }
-    contour obj;
+    ContourFinder obj;
+    Mat src_gray;
     cvtColor(src, src_gray, COLOR_BGR2GRAY);
     blur(src_gray, src_gray, Size(3, 3));
-    const char *source_window = "Source";
-    namedWindow(source_window);
-    imshow(source_window, src);
-    const int max_thresh = 255;
-    createTrackbar("Canny thresh:", source_window, &thresh, max_thresh, obj.thresh_callback());
-    obj.thresh_callback();
-    waitKey();
+    obj.find(src_gray);
     return 0;
 }
