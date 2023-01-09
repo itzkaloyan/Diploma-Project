@@ -35,6 +35,15 @@ int main(int argc, char **argv)
     blur(src_gray, src_gray, Size(3, 3));
     // obj.find(src_gray);
     threshold(src_gray, bnl, 127, 255, THRESH_BINARY);
+    int rows = src_gray.rows;
+    int cols = src_gray.cols;
+    for (int i = 0; i < cols; i++)
+    {
+        if (bnl.at<uint8_t>(rows - 1, i) < 255)
+        {
+            printf("%d ", i);
+        }
+    }
     const char *result = "Result";
     namedWindow(result);
     imshow(result, bnl);
