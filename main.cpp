@@ -6,9 +6,9 @@
 using namespace cv;
 using namespace std;
 
-int main(int argc, char **argv)
+int handle_pic(Mat &src, char **argv)
 {
-    Mat src = imread("../curve_left_iphone.jpg");
+    src = imread("../curve_left_iphone.jpg");
     if (src.empty())
     {
         cout << "Could not open or find the image!\n"
@@ -16,6 +16,15 @@ int main(int argc, char **argv)
         cout << "Usage: " << argv[0] << " <Input image>" << endl;
         return -1;
     }
+    else
+    {
+        return 0;
+    }
+}
+int main(int argc, char **argv)
+{
+    Mat src;
+    handle_pic(src, argv);
     ContourFinder obj;
     Mat src_gray;
     cvtColor(src, src_gray, COLOR_BGR2GRAY);
