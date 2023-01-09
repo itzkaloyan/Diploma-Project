@@ -13,15 +13,15 @@ void ContourFinder::find(Mat src_gray)
     findContours(canny_output, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
     int rows = src_gray.rows;
     int cols = src_gray.cols;
-    for (int i = 0; i <= rows; i++)
-    {
-        for (int j = 0; j <= cols; j++)
-        {
-            cout << ".";
-        }
-    }
-    const char *result = "Result";
-    namedWindow(result);
-    imshow(result, canny_output);
-    waitKey();
+    // for (int i = 0; i <= rows; i++)
+    // {
+    //     for (int j = 0; j <= cols; j++)
+    //     {
+    //         cout << ".";
+    //     }
+    // }
+    // const char *result = "Result";
+    // namedWindow(result);
+    // imshow(result, canny_output);
+    // waitKey();
 }

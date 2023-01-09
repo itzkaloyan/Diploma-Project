@@ -18,6 +18,9 @@ int handle_pic(Mat &src, char **argv)
     }
     else
     {
+        cout << "Width : " << src.size().width << endl;
+        cout << "Height: " << src.size().height << endl;
+        src = src(Range(0, 629), Range(0, 800));
         return 0;
     }
 }
@@ -27,8 +30,14 @@ int main(int argc, char **argv)
     handle_pic(src, argv);
     ContourFinder obj;
     Mat src_gray;
+    Mat bnl;
     cvtColor(src, src_gray, COLOR_BGR2GRAY);
     blur(src_gray, src_gray, Size(3, 3));
-    obj.find(src_gray);
+    // obj.find(src_gray);
+    threshold(src_gray, bnl, 127, 255, THRESH_BINARY);
+    const char *result = "Result";
+    namedWindow(result);
+    imshow(result, bnl);
+    waitKey();
     return 0;
 }
