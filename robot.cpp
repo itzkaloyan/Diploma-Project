@@ -25,6 +25,13 @@ Mat Robot::handle_pic(std::string imageFile)
     return bnw;
 }
 
+enum direction
+{
+    err,
+    left,
+    right
+};
+
 Result Robot::find_direction()
 {
     int rows = bnw.rows;
@@ -56,22 +63,21 @@ Result Robot::find_direction()
     middle2 = sumOfLine2 / line_lenght2;
     printf("%d\n", middle2);
     int angle = atan2(rows / 3, abs(middle - middle2)) * 180 / CV_PI;
-    int direction = -1;
+    direction dir = err;
     if (middle > middle2)
     {
-        direction = 0;
+        dir = direction::left;
         // left
     }
     else
     {
-        direction = 1;
+        dir = direction::right;
         // right
     }
-    printf("Angle:"
-           "%d\n",
-           angle);
     Result r;
     r.angle = angle;
-    r.direction = direction;
+    r.direction = dir;
+    cout << "Angle:" << r.angle << " "
+         << "Direction:" << r.direction << endl;
     return r;
 }
