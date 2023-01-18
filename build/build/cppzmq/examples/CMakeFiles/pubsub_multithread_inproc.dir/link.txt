@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/pubsub_multithread_inproc.dir/pubsub_multithread_inproc.cpp.o -o ../../../bin/pubsub_multithread_inproc  -Wl,-rpath,/usr/local/lib/arm-linux-gnueabihf -lpthread /usr/local/lib/arm-linux-gnueabihf/libzmq.so.5.2.5 -lpthread -lbsd -lsodium -lrt 

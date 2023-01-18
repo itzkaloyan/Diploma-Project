@@ -1,18 +1,26 @@
-# from adafruit_motorkit import MotorKit
-# import time
+from adafruit_motorkit import MotorKit
+import time
 import zmq
 import sys
 import json
 
-# kit = MotorKit()
+kit = MotorKit()
+
+def move(motor, val):
+    if callable(motor.throttle):
+        motor.throttle(val)
+    else:
+        motor.throttle = val
 
 def SetMotor(arg):
-    # kit.motor1.throttle(arg[0])
-    # kit.motor2.throttle(arg[1])
+    print(kit, kit.motor1, kit.motor1.throttle)
+    move(kit.motor1, arg[0])
+    move(kit.motor2, arg[1])
     print(f"SetMotor {arg}")
+
 def Stop(arg):
-    # kit.motor1.throttle(0.0)
-    # kit.motor2.throttle(0.0)
+    move(kit.motor1, 0.0)
+    move(kit.motor2, 0.0)
     print(f"Stop {arg}")
 
 kvp = {
@@ -39,10 +47,14 @@ def main():
         message, res = listenForCommand()
         keysList = list(message.keys())
         key = keysList[0]
+        print(key)
         val = message[key]
+        print(val)
         if key == None or key == "Deactivate":
             break
-        kvp[key](val)
+        func = kvp[key]
+        print(func, kvp)
+        func(val)
     socket.close()
 
 if __name__ == "__main__":

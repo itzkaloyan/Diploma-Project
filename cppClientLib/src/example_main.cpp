@@ -8,10 +8,6 @@ int main(int argc, char** argv)
 		printf("no argvs passed\n");
 		Client client;
 		const Result (Client::*functPonter[])(const MotionSpeed&) = {
-			&Client::backwardCommand,
-			&Client::forewardCommand,
-			&Client::leftCommand,
-			&Client::rightCommand,
 			&Client::stopCommand,
 			&Client::setMotorCommand,
 			&Client::deactivate
@@ -30,7 +26,6 @@ int main(int argc, char** argv)
 	if (arg == "--client") {
 		Client client;
 		client.connect("tcp://127.0.0.1:5555");
-		client.sendBuffer("something.txt");
 	} else if (arg == "--server") {
 		Server server;
 		server.bind("tcp://127.0.0.1:5555");

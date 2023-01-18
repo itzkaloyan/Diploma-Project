@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/hello_world.dir/hello_world.cpp.o -o ../../../bin/hello_world  -Wl,-rpath,/usr/local/lib/arm-linux-gnueabihf -lpthread /usr/local/lib/arm-linux-gnueabihf/libzmq.so.5.2.5 -lpthread -lbsd -lsodium -lrt 

@@ -8,7 +8,7 @@ class Client
 	const bool splitAndSendPackage(
 		std::vector<int32_t>& package
 	);
-	const bool Client::sendHTTPFlag(
+	const bool sendHTTPFlag(
 		const HTTPReq request,
 		int sizeInBytes
 	);

@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../cppClientLib/cppzmq/zmq.hpp
+zmq.h
+-
+cassert
+-
+cstring
+-
+algorithm
+-
+exception
+-
+iomanip
+-
+sstream
+-
+string
+-
+vector
+-
+array
+-
+chrono
+-
+tuple
+-
+memory
+-
+optional
+-
+string_view
+-
+type_traits
+-
+
+/home/andititan/code/basic_client_server/cppClientLib/cppzmq/examples/hello_world.cpp
+zmq.hpp
+-
+

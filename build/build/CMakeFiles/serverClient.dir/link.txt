@@ -1,0 +1,2 @@
+/usr/bin/ar qc libserverClient.a CMakeFiles/serverClient.dir/src/Client.cpp.o CMakeFiles/serverClient.dir/src/Server.cpp.o CMakeFiles/serverClient.dir/src/Json.cpp.o
+/usr/bin/ranlib libserverClient.a

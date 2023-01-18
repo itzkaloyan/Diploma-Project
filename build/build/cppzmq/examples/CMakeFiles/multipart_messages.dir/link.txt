@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/multipart_messages.dir/multipart_messages.cpp.o -o ../../../bin/multipart_messages  -Wl,-rpath,/usr/local/lib/arm-linux-gnueabihf -lpthread /usr/local/lib/arm-linux-gnueabihf/libzmq.so.5.2.5 -lpthread -lbsd -lsodium -lrt 
