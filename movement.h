@@ -1,13 +1,13 @@
 #pragma once
 #include "Client.h"
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 #include <iostream>
 
 struct Movement
 {
     Movement()
     {
-        cout << " ok " << endl;
+	std::cout << " ok " << std::endl;
         client.connect("tcp://127.0.0.1:5555");
     }
     int direction();
@@ -18,5 +18,5 @@ struct Movement
     void deactivate();
 
 private:
-    MotionSpeed ms(0.0, 0.0f);
+    Client client;
 };
