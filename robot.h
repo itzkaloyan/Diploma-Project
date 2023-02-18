@@ -2,10 +2,13 @@
 #include "opencv2/opencv.hpp"
 #include <string>
 
-struct Result
+struct picResult
 {
+    picResult() = default;
     int angle = -1;
     int direction = -1;
+
+private:
 };
 
 class Robot
@@ -16,8 +19,8 @@ public:
     {
         return bnw;
     }
-    cv::Mat handle_pic(std::string fileName);
-    Result find_direction();
+    cv::Mat handle_pic(cv::Mat frame);
+    picResult find_direction();
 
 private:
     cv::Mat bnw;

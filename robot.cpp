@@ -4,25 +4,27 @@
 using namespace cv;
 using namespace std;
 
-Mat Robot::handle_pic(std::string imageFile)
+Mat Robot::handle_pic(cv::Mat frame)
 {
-    Mat src = imread(imageFile);
-    if (src.empty())
+	Mat flipped;
+    if (frame.empty())
     {
         cout << "Could not open or find the image!\n";
         return Mat();
     }
     else
     {
-        // cout << "Width : " << src.size().width << endl;
+        cout << "in!" << endl;
         // cout << "Height: " << src.size().height << endl;
-        src = src(Range(0, 629), Range(0, 800));
+        //frame = frame(Range(0, 629), Range(0, 800));
+	//cv::flip(frame, flipped, 0);
     }
-    Mat src_gray;
-    cvtColor(src, src_gray, COLOR_BGR2GRAY);
-    blur(src_gray, src_gray, Size(3, 3));
-    threshold(src_gray, bnw, 127, 255, THRESH_BINARY);
+    Mat gray;
+    cvtColor(frame, gray, COLOR_BGR2GRAY);
+    blur(gray, flipped, Size(3, 3));
+    threshold(flipped, bnw, 127, 255, THRESH_BINARY);
     return bnw;
+    cout << "out!" << endl;
 }
 
 enum direction
@@ -32,7 +34,7 @@ enum direction
     right
 };
 
-Result Robot::find_direction()
+picResult Robot::find_direction()
 {
     int rows = bnw.rows;
     int cols = bnw.cols;
@@ -74,7 +76,7 @@ Result Robot::find_direction()
         dir = direction::right;
         // right
     }
-    Result r;
+    picResult r;
     r.angle = angle;
     r.direction = dir;
     cout << "Angle:" << r.angle << " "

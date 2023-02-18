@@ -6,19 +6,19 @@ find_package( OpenCV REQUIRED )
 add_subdirectory(cppClientLib) # build)
 
 set(SOURCES
-    test.cpp
+    main.cpp
     movement.cpp
+    robot.cpp
 
 )
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/cppClientLib/src/includes
-    ${OpenCV_INCLUDE_DIRS}
-    . 
-    )
+    ${OpenCV_INCLUDE_DIRS}.
+)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     serverClient
     ${OpenCV_LIBS}
-    )
+)
