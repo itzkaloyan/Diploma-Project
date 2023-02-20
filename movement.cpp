@@ -5,27 +5,27 @@
 
 void Movement::left()
 {
-    auto ms = MotionSpeed{-0.3, -0.3f};
+    MotionSpeed ms;
+    ms = MotionSpeed{-motorSpeed, -motorSpeed};
     client.setMotorCommand(ms);
-    usleep(50650);
-    ms = MotionSpeed{0.0, 0.0f};
-    client.setMotorCommand(ms);
+    sleep(3);
+    client.stopCommand();
 }
 
 void Movement::right()
 {
-    auto ms = MotionSpeed{0.3, 0.3f};
+    MotionSpeed ms;
+    ms = MotionSpeed{motorSpeed, motorSpeed};
     client.setMotorCommand(ms);
-    usleep(50650);
-    ms = MotionSpeed{0.0, 0.0f};
-    client.setMotorCommand(ms);
+    sleep(3);
+    client.stopCommand();
 }
 
 void Movement::forward()
 {
-    auto ms = MotionSpeed{0.3, -0.3f};
+    MotionSpeed ms;
+    ms = MotionSpeed{motorSpeed, -motorSpeed};
     client.setMotorCommand(ms);
-    usleep(50650);
-    ms = MotionSpeed{0.0, 0.0f};
-    client.setMotorCommand(ms);
+    sleep(3);
+    client.stopCommand();
 }
