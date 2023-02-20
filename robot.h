@@ -19,7 +19,7 @@ public:
     {
         return bnw;
     }
-    cv::Mat handle_pic(cv::Mat frame);
+    void handle_pic(cv::Mat frame, int frame_count);
     picResult find_direction();
 
 private:

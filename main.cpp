@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     }
 
     cv::Mat frame;
-
+    Robot obj;
     for (int frame_count = 0; frame_count < 10; frame_count++)
     {
 
@@ -51,37 +51,29 @@ int main(int argc, char** argv) {
             std::cout << "Failed to extract a frame.\n";
             return -1;
         }
-
-        std::string image_path = "frames/" + std::to_string(frame_count) + ".jpg";
-        cv::imwrite(image_path, frame);
+        obj.handle_pic(frame, frame_count);
     }
     bool startPython = false;
     int opt = 0;
     startPython = true;
     PythonScript ps(startPython);
-    Robot obj;
-    Client client;
-    obj.handle_pic(frame);
-    obj.find_direction();
-    picResult r;
-    std::cout << r.angle << " " << r.direction;
+    picResult r = obj.find_direction();
     Movement move;
+    std::cout << r.angle << " " << r.direction;
     if (r.angle <= 95&&r.angle >=85)
     {
+	cout << "forward" << endl;
 	move.forward();
     }
     else if (r.direction == 1)
     {
+	cout << "left" << endl;
         move.left();
     }
     else if (r.direction == 2){
-         move.right();
+	cout << "right" << endl;
+        move.right();
     }
-    else if (r.direction == -1)
-    {
-        client.stopCommand();
-    }
-    client.stopCommand();
-    client.disconnect();
+    move.deactivate();
     return 0;
 }

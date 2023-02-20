@@ -4,27 +4,24 @@
 using namespace cv;
 using namespace std;
 
-Mat Robot::handle_pic(cv::Mat frame)
+void Robot::handle_pic(cv::Mat frame, int frame_count)
 {
-	Mat flipped;
     if (frame.empty())
     {
         cout << "Could not open or find the image!\n";
-        return Mat();
     }
     else
     {
-        cout << "in!" << endl;
         // cout << "Height: " << src.size().height << endl;
         //frame = frame(Range(0, 629), Range(0, 800));
-	//cv::flip(frame, flipped, 0);
+	flip(frame, frame, -1);
     }
-    Mat gray;
-    cvtColor(frame, gray, COLOR_BGR2GRAY);
-    blur(gray, flipped, Size(3, 3));
-    threshold(flipped, bnw, 127, 255, THRESH_BINARY);
-    return bnw;
-    cout << "out!" << endl;
+    cvtColor(frame, frame, COLOR_BGR2GRAY);
+    blur(frame, frame, Size(3, 3));
+    threshold(frame, bnw, 210, 255, THRESH_BINARY);
+    std::string image_path = "frames/" + std::to_string(frame_count) + ".jpg";
+    cv::imwrite(image_path, frame);
+
 }
 
 enum direction
