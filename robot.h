@@ -19,7 +19,7 @@ public:
     {
         return bnw;
     }
-    void handle_pic(cv::Mat frame, int frame_count);
+    void handle_pic(cv::VideoCapture cap);
     picResult find_direction();
 
 private:

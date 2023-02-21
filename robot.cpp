@@ -1,27 +1,34 @@
 #include <iostream>
 #include "robot.h"
 
-using namespace cv;
-using namespace std;
-
-void Robot::handle_pic(cv::Mat frame, int frame_count)
+void Robot::handle_pic(cv::VideoCapture cap)
 {
+    if (!cap.isOpened())
+    {
+        std::cout << "Cannot open the video file.\n";
+    } 
+    cv::Mat frame;
+
+    for (int frame_count = 0; frame_count < 10; frame_count++)
+    {
+
+        if (!cap.read(frame))
+        {
+            std::cout << "Failed to extract a frame.\n";
+        }
+        //frame = frame(Range(0, 629), Range(0, 800));
+        flip(frame, frame, -1);
+        cvtColor(frame, frame, cv::COLOR_BGR2GRAY);
+        blur(frame, frame, cv::Size(3, 3));
+        threshold(frame, bnw, 210, 255, cv::THRESH_BINARY);
+        std::string image_path = "frames/" + std::to_string(frame_count) + ".jpg";
+        cv::imwrite(image_path, frame);
+    }
+
     if (frame.empty())
     {
-        cout << "Could not open or find the image!\n";
+	std::cout << "Could not open or find the image!\n";
     }
-    else
-    {
-        // cout << "Height: " << src.size().height << endl;
-        //frame = frame(Range(0, 629), Range(0, 800));
-	flip(frame, frame, -1);
-    }
-    cvtColor(frame, frame, COLOR_BGR2GRAY);
-    blur(frame, frame, Size(3, 3));
-    threshold(frame, bnw, 210, 255, THRESH_BINARY);
-    std::string image_path = "frames/" + std::to_string(frame_count) + ".jpg";
-    cv::imwrite(image_path, frame);
-
 }
 
 enum direction
@@ -76,7 +83,7 @@ picResult Robot::find_direction()
     picResult r;
     r.angle = angle;
     r.direction = dir;
-    cout << "Angle:" << r.angle << " "
-         << "Direction:" << r.direction << endl;
+    std::cout << "Angle:" << r.angle << " "
+         << "Direction:" << r.direction << std::endl;
     return r;
 }

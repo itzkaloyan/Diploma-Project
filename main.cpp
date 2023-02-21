@@ -34,30 +34,16 @@ private:
 };
 
 int main(int argc, char** argv) {
-	cv::VideoCapture cap(CAP_V4L2);
-    if (!cap.isOpened())
-    {
-        std::cout << "Cannot open the video file.\n";
-        return -1;
-    }
-
+    cv::VideoCapture cap(CAP_V4L2);
     cv::Mat frame;
     Robot obj;
-    for (int frame_count = 0; frame_count < 10; frame_count++)
-    {
-
-        if (!cap.read(frame))
-        {
-            std::cout << "Failed to extract a frame.\n";
-            return -1;
-        }
-        obj.handle_pic(frame, frame_count);
-    }
+    obj.handle_pic(cap);
     bool startPython = false;
     int opt = 0;
     startPython = true;
     PythonScript ps(startPython);
     picResult r = obj.find_direction();
+    //Movement object
     Movement move;
     std::cout << r.angle << " " << r.direction;
     if (r.angle <= 95&&r.angle >=85)
