@@ -19,9 +19,11 @@ public:
     {
         return bnw;
     }
-    void handle_pic(cv::VideoCapture cap);
+    void handle_pic(cv::VideoCapture cap, int step);
     picResult find_direction();
 
 private:
     cv::Mat bnw;
+    int middle;
+    int middle2;
 };

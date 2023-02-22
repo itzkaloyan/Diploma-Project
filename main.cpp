@@ -37,28 +37,17 @@ int main(int argc, char** argv) {
     cv::VideoCapture cap(CAP_V4L2);
     cv::Mat frame;
     Robot obj;
-    obj.handle_pic(cap);
+    Movement move;
     bool startPython = false;
     int opt = 0;
     startPython = true;
     PythonScript ps(startPython);
-    picResult r = obj.find_direction();
-    //Movement object
-    Movement move;
-    std::cout << r.angle << " " << r.direction;
-    if (r.angle <= 95&&r.angle >=85)
+    for (int step = 0; step < 10; step++)
     {
-	cout << "forward" << endl;
-	move.forward();
-    }
-    else if (r.direction == 1)
-    {
-	cout << "left" << endl;
-        move.left();
-    }
-    else if (r.direction == 2){
-	cout << "right" << endl;
-        move.right();
+        obj.handle_pic(cap, step);
+        picResult r = obj.find_direction();
+        move.moving(r);
+        sleep(3);
     }
     move.deactivate();
     return 0;
