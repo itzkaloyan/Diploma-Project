@@ -1,29 +1,21 @@
 import cv2
 import numpy as np
 
-image = cv2.imread('rose.jpg')
+image = cv2.imread("/home/student1/code/JetBot/HSV/test_images/8f.jpg")
 cv2.imshow("Original", image)
 
 result = image.copy()
 
 image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-# lower boundary RED color range values; Hue (0 - 10)
-lower1 = np.array([0, 100, 20])
-upper1 = np.array([10, 255, 255])
+lower = np.array([0, 5, 50])
+upper = np.array([179, 50, 255])
 
-# upper boundary RED color range values; Hue (160 - 180)
-lower2 = np.array([160,100,20])
-upper2 = np.array([179,255,255])
+lower_mask = cv2.inRange(image, lower, upper)
 
-lower_mask = cv2.inRange(image, lower1, upper1)
-upper_mask = cv2.inRange(image, lower2, upper2)
+result = cv2.bitwise_and(result, result, mask=lower_mask)
 
-full_mask = lower_mask + upper_mask;
-
-result = cv2.bitwise_and(result, result, mask=full_mask)
-
-cv2.imshow('mask', full_mask)
+cv2.imshow('mask', lower_mask)
 cv2.imshow('result', result)
 
 cv2.waitKey(0)
