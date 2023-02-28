@@ -9,8 +9,6 @@
 #include <string>
 #include "robot.h"
 #include "movement.h"
-using namespace cv;
-using namespace std;
 
 void executeFunction(const char* exec) {
     system(exec);
@@ -34,54 +32,24 @@ private:
 };
 
 int main(int argc, char** argv) {
-	cv::VideoCapture cap(CAP_V4L2);
-    if (!cap.isOpened())
-    {
-        std::cout << "Cannot open the video file.\n";
-        return -1;
-    }
-
-    cv::Mat frame;
-
-    for (int frame_count = 0; frame_count < 10; frame_count++)
-    {
-
-        if (!cap.read(frame))
-        {
-            std::cout << "Failed to extract a frame.\n";
-            return -1;
-        }
-
-        std::string image_path = "frames/" + std::to_string(frame_count) + ".jpg";
-        cv::imwrite(image_path, frame);
-    }
+    Robot obj;
+    Movement move;
     bool startPython = false;
     int opt = 0;
     startPython = true;
     PythonScript ps(startPython);
-    Robot obj;
-    Client client;
-    obj.handle_pic(frame);
-    obj.find_direction();
-    picResult r;
-    std::cout << r.angle << " " << r.direction;
-    Movement move;
-    if (r.angle <= 95&&r.angle >=85)
+    std::cout << "started server" << std::endl;
+    sleep(20);
+    cv::VideoCapture cap(cv::CAP_V4L2);
+    cv::Mat frame;
+    while (obj.getStep() <= 20)
     {
-	move.forward();
+	obj.setStep(obj.getStep()+1);
+        obj.handle_pic(cap);
+        picResult r = obj.find_direction();
+        move.controller(r);
+        usleep(100000);
     }
-    else if (r.direction == 1)
-    {
-        move.left();
-    }
-    else if (r.direction == 2){
-         move.right();
-    }
-    else if (r.direction == -1)
-    {
-        client.stopCommand();
-    }
-    client.stopCommand();
-    client.disconnect();
+    move.deactivate();
     return 0;
 }

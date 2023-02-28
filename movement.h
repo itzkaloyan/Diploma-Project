@@ -1,5 +1,6 @@
 #pragma once
 #include "Client.h"
+#include "robot.h"
 
 struct Movement
 {
@@ -12,8 +13,9 @@ struct Movement
     void right();
     void left();
     void deactivate();
+    void controller(picResult r);
 	
 private:
     Client client;
-    float motorSpeed = 0.3;
+    float motorSpeed = 0.4;
 };

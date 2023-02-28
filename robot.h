@@ -14,14 +14,28 @@ private:
 class Robot
 {
 public:
-    Robot() = default;
+    Robot()
+    {
+        step = 0;
+    }
     cv::Mat getBnw()
     {
         return bnw;
     }
-    cv::Mat handle_pic(cv::Mat frame);
+    int getStep()
+    {
+	return step;
+    }
+    void setStep(int s)
+    {
+	step = s;
+    }
+    void handle_pic(cv::VideoCapture cap);
     picResult find_direction();
 
 private:
     cv::Mat bnw;
+    int middle;
+    int middle2;
+    int step;
 };
