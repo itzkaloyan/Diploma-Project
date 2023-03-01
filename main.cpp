@@ -16,7 +16,7 @@ void executeFunction(const char* exec) {
 struct PythonScript {
     PythonScript(const bool usePython) {
         this->usePython = usePython;
-        const char* exec = "python ../python/Server.py";
+        const char* exec = "python ../../Diploma-Project/python/Server.py";
         if(usePython) {
             tr = std::thread(&executeFunction, exec);
         }
@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     sleep(20);
     cv::VideoCapture cap(cv::CAP_V4L2);
     cv::Mat frame;
-    while (obj.getStep() <= 20)
+    while (obj.getStep() <= 10)
     {
 	obj.setStep(obj.getStep()+1);
         obj.handle_pic(cap);

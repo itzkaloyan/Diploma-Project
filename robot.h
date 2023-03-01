@@ -20,7 +20,7 @@ public:
     }
     cv::Mat getBnw()
     {
-        return bnw;
+        return result;
     }
     int getStep()
     {
@@ -34,7 +34,8 @@ public:
     picResult find_direction();
 
 private:
-    cv::Mat bnw;
+    cv::Mat result;
+    cv::Mat frame;
     int middle;
     int middle2;
     int step;
