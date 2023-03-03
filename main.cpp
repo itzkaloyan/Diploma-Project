@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     startPython = true;
     PythonScript ps(startPython);
     std::cout << "started server" << std::endl;
-    sleep(20);
+    sleep(10);
     cv::VideoCapture cap(cv::CAP_V4L2);
     cv::Mat frame;
     while (obj.getStep() <= 10)
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
         obj.handle_pic(cap);
         picResult r = obj.find_direction();
         move.controller(r);
-        usleep(100000);
+        usleep(10000);
     }
     move.deactivate();
     return 0;

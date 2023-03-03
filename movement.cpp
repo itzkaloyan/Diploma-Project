@@ -8,7 +8,7 @@ void Movement::left()
     MotionSpeed ms;
     ms = MotionSpeed{-motorSpeed, -motorSpeed};
     client.setMotorCommand(ms);
-    usleep(100000);
+    usleep(10000);
     client.stopCommand();
 }
 
@@ -17,7 +17,7 @@ void Movement::right()
     MotionSpeed ms;
     ms = MotionSpeed{motorSpeed, motorSpeed};
     client.setMotorCommand(ms);
-    usleep(100000);
+    usleep(10000);
     client.stopCommand();
 }
 
@@ -26,7 +26,7 @@ void Movement::forward()
     MotionSpeed ms;
     ms = MotionSpeed{motorSpeed, -motorSpeed};
     client.setMotorCommand(ms);
-    usleep(100000);
+    usleep(10000);
     client.stopCommand();
 }
 
@@ -38,7 +38,7 @@ void Movement::deactivate()
 void Movement::controller(picResult r)
 {
 	 std::cout << r.angle << " " << r.direction;
-	if (r.angle <= 95&&r.angle >=85)
+	if (r.angle <= 100&&r.angle >=80)
     {
 	    std::cout << "forward" << std::endl;
 	forward();
