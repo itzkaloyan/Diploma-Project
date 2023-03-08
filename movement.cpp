@@ -38,7 +38,7 @@ void Movement::deactivate()
 void Movement::controller(picResult r)
 {
     std::cout << r.angle << " " << r.direction;
-    if (r.angle <= 100&&r.angle >=80)
+    if (r.angle <= 98 &&r.angle >= 82)
     {
 	std::cout << "forward" << std::endl;
 	forward();

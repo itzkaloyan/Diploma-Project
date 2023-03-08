@@ -38,48 +38,86 @@ picResult Robot::find_direction()
 
     int rows = result.rows;
     int cols = result.cols;
-    long sumOfLine1 = 0;
-    long line_lenght = 0;
+
+    //lower
+    long sumOfBottom = 0;
+    long lengthOfBottom = 0;
     for (int i = 0; i < cols; i++)
     {
         if (result.at<uint8_t>(rows - 1, i) < 255)
         {
-            sumOfLine1 = sumOfLine1 + i;
-            line_lenght++;
+            sumOfBottom = sumOfBottom + i;
+            lengthOfBottom++;
         }
     }
 
-    if(line_lenght != 0) {
-        middle = sumOfLine1 / line_lenght;
+    if(lengthOfBottom != 0) {
+        lowerMid = sumOfBottom / lengthOfBottom;
     }
     else {
     	std::cout << "no line detected!!!" << std::endl;
     }
-    printf("%d\n", middle);
-    long int sumOfLine2 = 0;
-    long int line_lenght2 = 0;
+    printf("%d\n", lowerMid);
+
+    //upper
+    long sumOfTop = 0;
+    long lengthOfTop = 0;
     for (int i = 0; i < cols; i++)
     {
         if (result.at<uint8_t>(0, i) < 255)
         {
-            sumOfLine2 = sumOfLine2 + i;
-            line_lenght2++;
+            sumOfTop = sumOfTop + i;
+            lengthOfTop++;
         }
     }
-    if(line_lenght2 != 0) {
-        middle2 = sumOfLine2 / line_lenght2;
+    printf("%d\n", upperMid);
+    int angle = 0;
+    if (lengthOfTop != 0) {
+        upperMid = sumOfTop / lengthOfTop;
+	angle = atan2((rows - 1) - 0, (lowerMid - upperMid)) * 180 / CV_PI;
     }
     else {
-        std::cout << "no line detected!!!" << std::endl;
+
+        //right
+    	long sumOfRight = 0;
+    	long lengthOfRight = 0;
+    	for (int i = 0; i < rows; i++)
+    	{
+	    if (result.at<uint8_t>(i, 0) < 255)
+	    {
+	        sumOfRight = sumOfRight + i;
+	        lengthOfRight++;
+	    }
+        }
+	if (lengthOfRight != 0)
+	{
+	    rightMid = sumOfRight / lengthOfRight;
+	    angle = atan2((rows - 1) - rightMid, lowerMid - (cols - 1)) * 180 / CV_PI; 
+	}
+        //left
+        long sumOfLeft = 0;
+        long lengthOfLeft = 0;
+        for (int i = 0; i < rows; i++)
+        {
+	    if (result.at<uint8_t>(i, cols -1) < 255)
+	    {
+	        sumOfLeft = sumOfLeft + i;
+	        lengthOfLeft++;
+	    }
+        }
+	if (lengthOfLeft != 0)
+	{   
+	    leftMid = sumOfLeft / lengthOfLeft;
+	    angle = atan2((rows - 1) - leftMid, 0) * 180 / CV_PI;
+	} 
     }
-    printf("%d\n", middle2);
-    int angle = atan2(rows, abs(middle - middle2)) * 180 / CV_PI;
+    angle = abs(angle);
     direction dir = err;
     char dirLetter = 's';
-    if(angle >= 80 && angle <= 100){
+    if(angle >= 82 && angle <= 98){
 	dirLetter = 'f';
     }
-    else if (middle > middle2)
+    else if (lowerMid > upperMid)
     {
         dir = direction::left;
 	std::cout << std::endl << "LEFT" << std::endl;
@@ -99,7 +137,7 @@ picResult Robot::find_direction()
     //std::string image_path = "frames/" + std::to_string(step) + "raw" + ".jpg";
     //cv::imwrite(image_path, frame);
     //image_path = "frames/" + std::to_string(step) + dirLetter + ".jpg";
-    //`cv::imwrite(image_path, result);
+    //cv::imwrite(image_path, result);
     std::cout << "Angle:" << r.angle << " "
          << "Direction:" << r.direction << std::endl;
     return r;

@@ -36,7 +36,9 @@ public:
 private:
     cv::Mat result;
     cv::Mat frame;
-    long int middle;
-    long int middle2;
+    long lowerMid;
+    long upperMid;
+    long rightMid;
+    long leftMid;
     int step;
 };

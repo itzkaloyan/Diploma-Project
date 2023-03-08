@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     sleep(10);
     cv::VideoCapture cap(cv::CAP_V4L2);
     cv::Mat frame;
-    while (obj.getStep() <= 200)
+    while (obj.getStep() <= 100)
     {
 	obj.setStep(obj.getStep()+1);
         obj.handle_pic(cap);
