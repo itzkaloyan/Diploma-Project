@@ -24,11 +24,11 @@ public:
     }
     int getStep()
     {
-	return step;
+        return step;
     }
     void setStep(int s)
     {
-	step = s;
+        step = s;
     }
     void handle_pic(cv::VideoCapture cap);
     picResult find_direction();

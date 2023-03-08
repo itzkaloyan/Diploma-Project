@@ -30,28 +30,34 @@ void Movement::forward()
     client.stopCommand();
 }
 
+void Movement::stop()
+{
+    MotionSpeed ms;
+    ms = MotionSpeed{0, 0};
+    client.setMotorCommand(ms);
+    usleep(10000);
+    client.stopCommand();
+}
+
 void Movement::deactivate()
 {
-	client.disconnect();
+    client.disconnect();
 }
 
 void Movement::controller(picResult r)
 {
-    std::cout << r.angle << " " << r.direction;
-    if (r.angle <= 98 &&r.angle >= 82)
+    switch (r.direction)
     {
-	std::cout << "forward" << std::endl;
-	forward();
-    }
-    else if (r.direction == 1)
-    {
-	std::cout << "left" << std::endl;
+    case 1:
+        std::cout << "left" << std::endl;
         left();
-    }
-    else if (r.direction == 2)
-    {
-	std::cout << "right" << std::endl;
+    case 2:
+        std::cout << "right" << std::endl;
         right();
+    case 3:
+        std::cout << "forward" << std::endl;
+        forward();
+    default:
+        stop();
     }
 }
-
