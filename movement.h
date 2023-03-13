@@ -18,5 +18,4 @@ struct Movement
 
 private:
     Client client;
-    float motorSpeed = 0.4;
 };

@@ -30,7 +30,7 @@ public:
     {
         step = s;
     }
-    void handle_pic(cv::VideoCapture cap);
+    void handle_pic(const cv::Mat &inframe);
     picResult find_direction();
 
 private:
