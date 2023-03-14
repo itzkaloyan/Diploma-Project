@@ -5,17 +5,17 @@
 
 void Movement::left()
 {
-    MotionSpeed ms(0.0f, -0.4f);
+    MotionSpeed ms(-0.4f, -0.4f);
     client.setMotorCommand(ms);
-    usleep(50000);
+    usleep(15000);
     client.stopCommand();
 }
 
 void Movement::right()
 {
-    MotionSpeed ms(0.4f, 0.0f);
+    MotionSpeed ms(0.4f, 0.4f);
     client.setMotorCommand(ms);
-    usleep(50000);
+    usleep(15000);
     client.stopCommand();
 }
 
@@ -23,7 +23,7 @@ void Movement::forward()
 {
     MotionSpeed ms(0.4f, -0.4f);
     client.setMotorCommand(ms);
-    usleep(50000);
+    usleep(40000);
     client.stopCommand();
 }
 
@@ -32,7 +32,7 @@ void Movement::stop()
     MotionSpeed ms;
     ms = MotionSpeed{0.0f, 0.0f};
     client.setMotorCommand(ms);
-    usleep(35000);
+    usleep(40000);
     client.stopCommand();
 }
 

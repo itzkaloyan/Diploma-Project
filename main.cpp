@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     startPython = true;
     PythonScript ps(startPython);
     std::cout << "started server" << std::endl;
- //   sleep(10);
+    sleep(10);
     cv::VideoCapture cap(cv::CAP_V4L2);
 
     if (cap.isOpened())
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
         std::cout << "Cannot open the video file.\n";
     }
 #endif
-    while (obj.getStep() <= 200)
+    while (obj.getStep() <= 1000)
     {
         int step = obj.getStep();
         printf("step: %d\n", step);
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
 #ifndef PC
         move.controller(r);
 #endif
-        usleep(10000);
+        usleep(20000);
         std::cout << std::endl
                   << obj.getStep() << std::endl;
     }

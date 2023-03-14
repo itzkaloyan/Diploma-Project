@@ -151,8 +151,8 @@ picResult Robot::find_direction()
     int angle = 0;
     direction dir = err;
     char dirLetter = 's';
-    const int left = cols * 0.30;
-    const int right = cols * 0.70;
+    const int left = cols * 0.32;
+    const int right = cols * 0.67;
 
     if (lowerMid < 0)
     {
@@ -190,8 +190,8 @@ picResult Robot::find_direction()
     // cv::line(result, p1, p2, cv::Scalar(0, 0, 0), 2, cv::LINE_4);
     // std::string image_path = "frames/" + std::to_string(step) + "raw" + ".jpg";
     // cv::imwrite(image_path, frame);
-    std::string image_path = "frames/" + std::to_string(step) + dirLetter + ".jpg";
-    cv::imwrite(image_path, result);
+    //std::string image_path = "frames/" + std::to_string(step) + dirLetter + ".jpg";
+    //cv::imwrite(image_path, result);
     std::cout << "Angle:" << r.angle << " "
               << "Direction:" << r.direction << std::endl;
     return r;
