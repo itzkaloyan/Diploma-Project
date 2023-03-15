@@ -41,7 +41,7 @@ private:
     bool usePython = false;
 };
 
-int main(int argc, char **argv)
+int main()
 {
     Robot obj;
 
@@ -75,10 +75,10 @@ int main(int argc, char **argv)
 #else
         cv::Mat frame;
         if (cap.read(frame))
-	{
-		printf("read frame\n");
-	}
-	else
+        {
+            printf("read frame\n");
+        }
+        else
         {
             std::cout << "Failed to extract a frame.\n";
         }

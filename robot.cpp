@@ -51,7 +51,7 @@ picResult Robot::find_direction()
     {
         std::cout << "no line detected!!!" << std::endl;
     }
-    printf("%d\n", lowerMid);
+    printf("%ld\n", lowerMid);
 
     // // upper
     // long sumOfTop = 0;
@@ -74,7 +74,6 @@ picResult Robot::find_direction()
     // }
     // else
     // {
-
 
     //     // right
     //     long sumOfRight = 0;
@@ -148,16 +147,21 @@ picResult Robot::find_direction()
     //     }
     // }
     // angle = abs(angle);
-    int angle = 0;
+    // int angle = 0;
     direction dir = err;
     char dirLetter = 's';
     const int left = cols * 0.32;
     const int right = cols * 0.67;
+    char lastStep = 's';
 
-    if (lowerMid < 0)
+    if (lowerMid >= right)
     {
+        // the line is on the right
+        dir = direction::right;
         std::cout << std::endl
-                  << "NOTHING" << std::endl;
+                  << "RIGHT" << std::endl;
+        dirLetter = 'r';
+        lastStep = 'r';
     }
     else if (lowerMid <= left)
     {
@@ -166,33 +170,41 @@ picResult Robot::find_direction()
         std::cout << std::endl
                   << "LEFT" << std::endl;
         dirLetter = 'l';
+        lastStep = 'l';
     }
-    else if (lowerMid > right)
-    {
-        // the line is on the right
-        dir = direction::right;
-        std::cout << std::endl
-                  << "RIGHT" << std::endl;
-        dirLetter = 'r';
-    }
-    else
+
+    else if (lowerMid < right && lowerMid > left)
     {
         // the line is on the middle
         dir = direction::forward;
         std::cout << std::endl
                   << "FORWARD" << std::endl;
         dirLetter = 'f';
+        lastStep = 'r';
+    }
+    else if (lowerMid < 0)
+    {
+        std::cout << std::endl
+                  << "NOTHING" << std::endl;
+        if (lastStep == 'r')
+        {
+            dir = direction::right;
+        }
+        else if (lastStep == 'l')
+        {
+            dir = direction::left;
+        }
     }
     picResult r;
-    r.angle = angle;
+    // r.angle = angle;
     r.direction = dir;
     // cv::Point p1(320, middle2), p2(0,middle);
     // cv::line(result, p1, p2, cv::Scalar(0, 0, 0), 2, cv::LINE_4);
     // std::string image_path = "frames/" + std::to_string(step) + "raw" + ".jpg";
     // cv::imwrite(image_path, frame);
-    //std::string image_path = "frames/" + std::to_string(step) + dirLetter + ".jpg";
-    //cv::imwrite(image_path, result);
-    std::cout << "Angle:" << r.angle << " "
-              << "Direction:" << r.direction << std::endl;
+    // std::string image_path = "frames/" + std::to_string(step) + dirLetter + ".jpg";
+    // cv::imwrite(image_path, result);
+    std::cout //<< "Angle:" << r.angle << " "
+        << "Direction:" << r.direction << std::endl;
     return r;
 }
