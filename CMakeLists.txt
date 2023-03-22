@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.18)
 project( robotProject )
 
 find_package( OpenCV REQUIRED )
+find_package(nlohmann_json 3.2.0 )
 
 add_subdirectory(cppClientLib) # build)
 
@@ -19,6 +20,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
+    nlohmann_json::nlohmann_json
     serverClient
     ${OpenCV_LIBS}
 )
