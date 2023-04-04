@@ -1,6 +1,9 @@
 #include <iostream>
 #include "robot.h"
+#include <fstream>
 #include <nlohmann/json.hpp>
+#include <memory>
+using json = nlohmann::json;
 
 void Robot::handle_pic(const cv::Mat &inframe)
 {
@@ -30,8 +33,6 @@ picResult Robot::find_direction()
 
     int rows = result.rows;
     int cols = result.cols;
-    nlohmann::json jsonData = nlohmann::json::parse("config.json");
-
     // lower
     long sumOfBottom = 0;
     long lengthOfBottom = 0;
@@ -44,7 +45,6 @@ picResult Robot::find_direction()
             lengthOfBottom++;
         }
     }
-
     if (lengthOfBottom != 0)
     {
         lowerMid = sumOfBottom / lengthOfBottom;
@@ -56,11 +56,15 @@ picResult Robot::find_direction()
     printf("%ld\n", lowerMid);
     direction dir = err;
     char dirLetter = 's';
-    const int left = cols * 0.32;
-    const int right = cols * 0.67;
+    std::ifstream ifs("../config.json");
+    json j = json::parse(ifs);
+    int left = j["left"];
+    int right = j["right"];
+    left = left * cols;
+    right = right * cols;
     char lastStep = 's';
 
-    if (lowerMid >= jsonData["right"])
+    if (lowerMid >= right)
     {
         // the line is on the right
         dir = direction::right;
@@ -69,7 +73,7 @@ picResult Robot::find_direction()
         dirLetter = 'r';
         lastStep = 'r';
     }
-    else if (lowerMid <= jsonData["left"])
+    else if (lowerMid <= left)
     {
         // the line is on the left
         dir = direction::left;
@@ -79,7 +83,7 @@ picResult Robot::find_direction()
         lastStep = 'l';
     }
 
-    else if (lowerMid < jsonData["right"] && lowerMid > jsonData["left"])
+    else if (lowerMid < right && lowerMid > left)
     {
         // the line is on the middle
         dir = direction::forward;

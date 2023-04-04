@@ -13,6 +13,7 @@
 #include "Client.h"
 #endif
 
+void run();
 void executeFunction(const char *exec)
 {
     system(exec);
@@ -43,16 +44,21 @@ private:
 
 int main()
 {
-    Robot obj;
-
 #ifndef PC
-    Movement move;
     bool startPython = false;
     int opt = 0;
     startPython = true;
     PythonScript ps(startPython);
     std::cout << "started server" << std::endl;
-    sleep(10);
+    sleep(5);
+    run();
+    return 0;
+}
+#endif
+void run()
+{
+    Robot obj;
+
     cv::VideoCapture cap(cv::CAP_V4L2);
 
     if (cap.isOpened())
@@ -63,7 +69,7 @@ int main()
     {
         std::cout << "Cannot open the video file.\n";
     }
-#endif
+    Movement move;
     while (obj.getStep() <= 1000)
     {
         int step = obj.getStep();
@@ -73,15 +79,15 @@ int main()
 #ifdef PC
         cv::Mat frame = cv::imread("7f.jpg");
 #else
-        cv::Mat frame;
-        if (cap.read(frame))
-        {
-            printf("read frame\n");
-        }
-        else
-        {
-            std::cout << "Failed to extract a frame.\n";
-        }
+            cv::Mat frame;
+            if (cap.read(frame))
+            {
+                printf("read frame\n");
+            }
+            else
+            {
+                std::cout << "Failed to extract a frame.\n";
+            }
 #endif
 
         obj.handle_pic(frame);
@@ -97,5 +103,4 @@ int main()
 #ifndef PC
     move.deactivate();
 #endif
-    return 0;
 }
