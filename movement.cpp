@@ -46,14 +46,14 @@ void Movement::controller(picResult r)
     switch (r.direction)
     {
 
-    case 2:
-        std::cout << "right" << std::endl;
-        right();
-        break;
-
     case 1:
         std::cout << "left" << std::endl;
         left();
+        break;
+
+    case 2:
+        std::cout << "right" << std::endl;
+        right();
         break;
 
     case 3:

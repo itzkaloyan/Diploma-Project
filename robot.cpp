@@ -30,13 +30,13 @@ enum direction
 
 picResult Robot::find_direction()
 {
-
+    char lastStep = 's';
     int rows = result.rows;
     int cols = result.cols;
     // lower
     long sumOfBottom = 0;
     long lengthOfBottom = 0;
-    lowerMid = -1;
+    int lowerMid = -1;
     for (int i = 0; i < cols; i++)
     {
         if (result.at<uint8_t>(rows - 1, i) < 255)
@@ -58,11 +58,11 @@ picResult Robot::find_direction()
     char dirLetter = 's';
     std::ifstream ifs("../config.json");
     json j = json::parse(ifs);
-    int left = j["left"];
-    int right = j["right"];
+    float left = j["left"];
+    float right = j["right"];
+    std::cout << " left = " << left << std::endl;
     left = left * cols;
     right = right * cols;
-    char lastStep = 's';
 
     if (lowerMid >= right)
     {
@@ -90,7 +90,6 @@ picResult Robot::find_direction()
         std::cout << std::endl
                   << "FORWARD" << std::endl;
         dirLetter = 'f';
-        lastStep = 'r';
     }
     else if (lowerMid < 0)
     {

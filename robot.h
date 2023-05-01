@@ -5,7 +5,6 @@
 struct picResult
 {
     picResult() = default;
-    int angle = -1;
     int direction = -1;
 
 private:
