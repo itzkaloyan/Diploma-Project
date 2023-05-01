@@ -37,4 +37,5 @@ private:
     cv::Mat frame;
     long lowerMid;
     int step;
+    char lastStep;
 };

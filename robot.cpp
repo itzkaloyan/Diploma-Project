@@ -30,7 +30,6 @@ enum direction
 
 picResult Robot::find_direction()
 {
-    char lastStep = 's';
     int rows = result.rows;
     int cols = result.cols;
     // lower
@@ -53,7 +52,7 @@ picResult Robot::find_direction()
     {
         std::cout << "no line detected!!!" << std::endl;
     }
-    printf("%ld\n", lowerMid);
+    printf("lowerMid: %ld\n", lowerMid);
     direction dir = err;
     char dirLetter = 's';
     std::ifstream ifs("../config.json");
@@ -73,7 +72,7 @@ picResult Robot::find_direction()
         dirLetter = 'r';
         lastStep = 'r';
     }
-    else if (lowerMid <= left)
+    else if (lowerMid <= left && lowerMid >= 0)
     {
         // the line is on the left
         dir = direction::left;
