@@ -7,10 +7,12 @@
 #include "opencv2/imgproc.hpp"
 #include <string>
 #include "robot.h"
+#include <chrono>
 #ifndef PC
 #include "movement.h"
 #include "Client.h"
 #endif
+using namespace std::chrono;
 
 void run();
 void executeFunction(const char *exec)
@@ -68,11 +70,14 @@ void run()
     {
         std::cout << "Cannot open the video file.\n";
     }
+    cap.set(cv::CAP_PROP_FRAME_WIDTH, 320);
+    cap.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
     Movement move;
-    while (obj.getStep() <= 1000)
+    while (obj.getStep() <= 2000)
     {
+        auto start = high_resolution_clock::now();
         int step = obj.getStep();
-        printf("step: %d\n", step);
+        printf("step: %d\n", step - 1);
         obj.setStep(step + 1);
 
 #ifdef PC
@@ -95,11 +100,14 @@ void run()
 #ifndef PC
         move.controller(r);
 #endif
-        usleep(20000);
         std::cout << std::endl
                   << obj.getStep() << std::endl;
+        auto stop = high_resolution_clock::now(); // Get stop time
+        auto duration = duration_cast<microseconds>(stop - start);
+        std::cout << "run(): " << duration.count() << " microseconds" << std::endl;
     }
 #ifndef PC
+    move.stop();
     move.deactivate();
 #endif
 }

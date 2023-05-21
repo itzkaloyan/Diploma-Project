@@ -3,12 +3,15 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <memory>
+#include <chrono>
 using json = nlohmann::json;
+using namespace std::chrono;
 
 void Robot::handle_pic(const cv::Mat &inframe)
 {
+    auto start = high_resolution_clock::now();
     flip(inframe, frame, -1);
-    frame = frame(cv::Range(320, 480), cv::Range(0, 640));
+    frame = frame(cv::Range(239, 240), cv::Range(0, 320));
     cvtColor(frame, result, cv::COLOR_BGR2HSV);
     const cv::Scalar lower_bound = cv::Scalar(80, 80, 80);
     const cv::Scalar higher_bound = cv::Scalar(195, 255, 255);
@@ -18,6 +21,9 @@ void Robot::handle_pic(const cv::Mat &inframe)
     {
         std::cout << "Could not open or find the image!\n";
     }
+    auto stop = high_resolution_clock::now(); // Get stop time
+    auto duration = duration_cast<microseconds>(stop - start);
+    std::cout << "handle_pic: " << duration.count() << " microseconds" << std::endl;
 }
 
 enum direction
@@ -30,6 +36,7 @@ enum direction
 
 picResult Robot::find_direction()
 {
+    auto start = high_resolution_clock::now();
     int rows = result.rows;
     int cols = result.cols;
     // lower
@@ -54,7 +61,6 @@ picResult Robot::find_direction()
     }
     printf("lowerMid: %ld\n", lowerMid);
     direction dir = err;
-    char dirLetter = 's';
     std::ifstream ifs("../config.json");
     json j = json::parse(ifs);
     float left = j["left"];
@@ -69,7 +75,6 @@ picResult Robot::find_direction()
         dir = direction::right;
         std::cout << std::endl
                   << "RIGHT" << std::endl;
-        dirLetter = 'r';
         lastStep = 'r';
     }
     else if (lowerMid <= left && lowerMid >= 0)
@@ -78,7 +83,6 @@ picResult Robot::find_direction()
         dir = direction::left;
         std::cout << std::endl
                   << "LEFT" << std::endl;
-        dirLetter = 'l';
         lastStep = 'l';
     }
 
@@ -88,7 +92,6 @@ picResult Robot::find_direction()
         dir = direction::forward;
         std::cout << std::endl
                   << "FORWARD" << std::endl;
-        dirLetter = 'f';
     }
     else if (lowerMid < 0)
     {
@@ -105,6 +108,11 @@ picResult Robot::find_direction()
     }
     picResult r;
     r.direction = dir;
+    // std::string image_path = "frames/" + "shot.jpg";
+    // cv::imwrite(image_path, result);
     std::cout << "Direction:" << r.direction << std::endl;
+    auto stop = high_resolution_clock::now(); // Get stop time
+    auto duration = duration_cast<microseconds>(stop - start);
+    std::cout << "find_direction: " << duration.count() << " microseconds" << std::endl;
     return r;
 }
